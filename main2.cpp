@@ -31,7 +31,7 @@ void* computar(void *tid){
         area_total += f(x_i);
     }
 
-    area_total += h*area_total;
+    area_total = h*area_total;
     soma[rank] = area_total;
 
     pthread_exit(NULL);
