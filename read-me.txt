@@ -1,0 +1,4 @@
+COMANDOS PARA EXECUTAR:
+
+1) g++ -o prog main2.cpp -pthread
+2) ./prog
