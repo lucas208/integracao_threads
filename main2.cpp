@@ -32,7 +32,6 @@ void* computar(void *tid){
     }
     
     double largura_trapezio = (b-a)/n;
-    cout<< "CONTA = " << largura_trapezio <<endl;
     cout<<"Esta é a Thread "<< rank << endl;
     double local_a = a + rank*largura_trapezio*local_n;
     double local_b = local_a + largura_trapezio*local_n + largura_trapezio*resto;
