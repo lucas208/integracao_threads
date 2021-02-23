@@ -5,10 +5,10 @@
 
 using namespace std;
 
-#define PI 3.14159265358979323846  
+double pi = 3.14159265358979323846;  
 
 double a = 0;
-double b = 2*PI;
+double b = 2*pi;
 int n = 200;
 int t = 7;
 double soma[7];
@@ -24,26 +24,27 @@ double f2(double x){
 void* computar(void *tid){
 
     int rank = (int)(size_t)tid;
-
     int local_n = n/t;
+    double resto = 0;
 
     if(rank == t-1){
-        local_n += n%t;
-    }    
-
+        resto = n%t;
+    }
+    
     double largura_trapezio = (b-a)/n;
+    cout<< "CONTA = " << largura_trapezio <<endl;
     cout<<"Esta é a Thread "<< rank << endl;
     double local_a = a + rank*largura_trapezio*local_n;
-    double local_b = local_a + largura_trapezio*local_n;
+    double local_b = local_a + largura_trapezio*local_n + largura_trapezio*resto;
     double x_i;
-    double h = (local_b - local_a)/local_n;
+    double h = (local_b - local_a)/(local_n + resto);
     double area_total = (f2(local_a)+f2(local_b))/2;
-
-    for(int i = 1;i<local_n;i++){
+    
+    for(int i = 1;i<(local_n + resto);i++){
         x_i = local_a +i*h;
         area_total += f2(x_i);
     }
-
+  
     area_total = h*area_total;
     soma[rank] = area_total;
 
@@ -52,7 +53,7 @@ void* computar(void *tid){
 
 int main(int argc, char *argv[]){
 
-    pthread_t threads[t];
+    pthread_t threads[7];
     int i;
     void *thread_return;
     double somatorio = 0;
